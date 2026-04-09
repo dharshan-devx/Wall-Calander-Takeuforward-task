@@ -1,0 +1,514 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════ */
+:root {
+  /* Surface */
+  --cal-bg: #ddd8cc;
+  --cal-surface: #ffffff;
+  --cal-surface-alt: #f6f5f1;
+  --cal-ambient-1: rgba(212, 168, 83, 0.16);
+  --cal-ambient-2: rgba(31, 80, 199, 0.13);
+  --cal-ambient-3: rgba(160, 90, 210, 0.07);
+  --cal-ambient-4: rgba(255, 255, 255, 0.25);
+
+  /* Borders */
+  --cal-border: rgba(0, 0, 0, 0.07);
+  --cal-border-subtle: rgba(0, 0, 0, 0.035);
+
+  /* Text */
+  --cal-text-primary: #18202e;
+  --cal-text-secondary: #4a5568;
+  --cal-text-muted: #8896a8;
+  --cal-text-faint: #c4cdd9;
+
+  /* Accent — deep sapphire */
+  --cal-accent: #1f50c7;
+  --cal-accent-hover: #1942ad;
+  --cal-accent-light: rgba(31, 80, 199, 0.09);
+  --cal-accent-faint: #eaeffe;
+  --cal-accent-glow: 0 4px 24px rgba(31, 80, 199, 0.45), 0 1px 4px rgba(31, 80, 199, 0.25), 0 0 0 3px rgba(31, 80, 199, 0.14);
+
+  /* Semantic */
+  --cal-today-ring: rgba(31, 80, 199, 0.38);
+  --cal-weekend: #c0422e;
+  --cal-holiday-bg: #fde8e8;
+  --cal-note-line: rgba(0, 0, 0, 0.048);
+
+  /* Shadows */
+  --cal-shadow-lg: 0 32px 80px rgba(0, 0, 0, 0.11), 0 8px 24px rgba(0, 0, 0, 0.07);
+  --cal-shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.07);
+
+  /* Physical */
+  --cal-hole: #ccd4e3;
+
+  /* Fonts */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  /* ── Glass System ───────────────────────────────────── */
+  --glass-bg: rgba(255, 255, 255, 0.68);
+  --glass-bg-strong: rgba(255, 255, 255, 0.82);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.38);
+  --glass-bg-dim: rgba(255, 255, 255, 0.22);
+  --glass-border: rgba(255, 255, 255, 0.60);
+  --glass-border-sub: rgba(255, 255, 255, 0.30);
+  --glass-shadow: 0 8px 32px rgba(31, 80, 199, 0.07), 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  --glass-shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.10), 0 6px 20px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --glass-shadow-pro: 0 20px 50px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.75), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+}
+
+.dark {
+  /* Surface */
+  --cal-bg: #090e17;
+  --cal-surface: #131a26;
+  --cal-surface-alt: #0d131f;
+  --cal-ambient-1: rgba(56, 189, 248, 0.06);
+  --cal-ambient-2: rgba(59, 130, 246, 0.08);
+  --cal-ambient-3: rgba(139, 92, 246, 0.04);
+  --cal-ambient-4: rgba(15, 23, 42, 0.5);
+
+  /* Borders */
+  --cal-border: rgba(255, 255, 255, 0.07);
+  --cal-border-subtle: rgba(255, 255, 255, 0.035);
+
+  /* Text */
+  --cal-text-primary: #eef2f8;
+  --cal-text-secondary: #8ea3c0;
+  --cal-text-muted: #556880;
+  --cal-text-faint: #2a3a50;
+
+  /* Accent */
+  --cal-accent: #3b82f6;
+  --cal-accent-hover: #60a5fa;
+  --cal-accent-light: rgba(59, 130, 246, 0.14);
+  --cal-accent-faint: rgba(59, 130, 246, 0.09);
+  --cal-accent-glow: 0 4px 24px rgba(59, 130, 246, 0.55), 0 1px 4px rgba(59, 130, 246, 0.3), 0 0 0 3px rgba(59, 130, 246, 0.18);
+
+  /* Semantic */
+  --cal-today-ring: rgba(59, 130, 246, 0.45);
+  --cal-weekend: #f87171;
+  --cal-holiday-bg: #3d0808;
+  --cal-note-line: rgba(255, 255, 255, 0.055);
+
+  /* Shadows */
+  --cal-shadow-lg: 0 32px 80px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --cal-shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.25);
+
+  /* Physical */
+  --cal-hole: #2a3a52;
+
+  /* ── Glass System (dark) ─────────────────────────────── */
+  --glass-bg: rgba(18, 30, 52, 0.65);
+  --glass-bg-strong: rgba(18, 30, 52, 0.82);
+  --glass-bg-subtle: rgba(30, 47, 78, 0.40);
+  --glass-bg-dim: rgba(30, 47, 78, 0.22);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-border-sub: rgba(255, 255, 255, 0.05);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --glass-shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.55), 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-pro: 0 20px 50px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.3);
+  --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════════════════ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--cal-bg);
+  color: var(--cal-text-primary);
+  min-height: 100vh;
+  transition: background 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.6s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    radial-gradient(ellipse 90% 65% at 12% 5%, var(--cal-ambient-1) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 80% at 90% 95%, var(--cal-ambient-2) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 88% 12%, var(--cal-ambient-3) 0%, transparent 45%),
+    radial-gradient(ellipse 40% 35% at 50% 50%, var(--cal-ambient-4) 0%, transparent 60%);
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLASS UTILITY CLASSES
+═══════════════════════════════════════════════════════════ */
+
+/* Main card — deepest glass layer */
+.glass-card {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(22px) saturate(1.75);
+  -webkit-backdrop-filter: blur(22px) saturate(1.75);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.glass-card-pro {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-pro);
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Panel glass — inner surfaces */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px) saturate(1.55);
+  -webkit-backdrop-filter: blur(14px) saturate(1.55);
+  border: 1px solid var(--glass-border-sub);
+  box-shadow: var(--glass-shadow), var(--glass-inset);
+}
+
+/* Subtle glass — light tinting */
+.glass-subtle {
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(8px) saturate(1.35);
+  -webkit-backdrop-filter: blur(8px) saturate(1.35);
+  border: 1px solid var(--glass-border-sub);
+}
+
+/* Glass button */
+.glass-btn {
+  background: var(--glass-bg-dim);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid var(--glass-border-sub);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.glass-btn:hover {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 32px rgba(31, 80, 199, 0.13),
+    0 4px 12px rgba(0, 0, 0, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.60);
+}
+
+.glass-btn:active {
+  transform: translateY(0px) scale(0.96);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Glass button on dark/colored bg (hero) */
+.glass-btn-hero {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px) saturate(1.5);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.glass-btn-hero:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.42);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.glass-btn-hero:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REALISTIC WIRE-O BINDING (TWIN-LOOP & HANGER)
+═══════════════════════════════════════════════════════════ */
+.wire-o-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0; /* Zero height so it doesn't affect flow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.wire-o-hole {
+  width: 9px;
+  height: 11px;
+  border-radius: 3px;
+  background: #000;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,1), 0 1px 0 rgba(255,255,255,0.4);
+  position: relative;
+  flex-shrink: 0;
+  transform: translateY(1.5px); /* Push down into the paper slightly */
+}
+
+/* Twin loops */
+.wire-o-hole::before,
+.wire-o-hole::after {
+  content: '';
+  position: absolute;
+  top: -11px;
+  width: 3px;
+  height: 20px;
+  border-radius: 2px;
+  /* Dark metallic gradient for wire */
+  background: linear-gradient(to right, #111 0%, #3e3e3e 30%, #555 50%, #2e2e2e 80%, #050505 100%);
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  transform-origin: bottom center;
+}
+
+.wire-o-hole::before {
+  left: 0px;
+  transform: rotate(-3deg);
+}
+
+.wire-o-hole::after {
+  right: 0px;
+  transform: rotate(3deg);
+}
+
+/* Center Hanger Cutout + Wire Loop */
+.hanger-cutout {
+  width: 32px;
+  height: 16px;
+  border-radius: 0 0 32px 32px;
+  background: var(--cal-bg); /* Cuts out the glass visually */
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: inset 0 4px 6px -3px rgba(0,0,0,0.3);
+  transform: translateY(8px);
+}
+
+.hanger-wire {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 28px;
+  border: 3.5px solid #222;
+  border-bottom: none;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  box-shadow: inset -1px 0 1px rgba(255,255,255,0.2), -1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO OVERLAYS
+═══════════════════════════════════════════════════════════ */
+.hero-overlay {
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.20) 0%,
+      rgba(0, 0, 0, 0.08) 25%,
+      rgba(0, 0, 0, 0.12) 50%,
+      rgba(0, 0, 0, 0.52) 75%,
+      rgba(0, 0, 0, 0.72) 100%);
+}
+
+/* Animated ambient breathe over hero */
+@keyframes heroBreathe {
+  0% {
+    opacity: 0.5;
+    transform: scale(1) translate(0, 0);
+  }
+
+  33% {
+    opacity: 0.7;
+    transform: scale(1.06) translate(1.5%, -1%);
+  }
+
+  66% {
+    opacity: 0.45;
+    transform: scale(0.97) translate(-1%, 1.5%);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.hero-ambient {
+  animation: heroBreathe 10s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NOTE LINES
+═══════════════════════════════════════════════════════════ */
+.note-line {
+  border-bottom: 1px solid var(--cal-note-line);
+  min-height: 28px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════════════════ */
+@keyframes accentPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(0.72);
+  }
+}
+
+@keyframes accent-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; filter: brightness(1); }
+  50% { transform: scale(1.15); opacity: 0.8; filter: brightness(1.3); }
+}
+
+@keyframes today-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.animate-accent-pulse {
+  animation: accent-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-today-ring {
+  animation: today-ring 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOOLTIP (glassy)
+═══════════════════════════════════════════════════════════ */
+.day-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(18, 24, 40, 0.93);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #f0f4ff;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 0.14s;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.day-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: rgba(18, 24, 40, 0.93);
+}
+
+.day-cell:hover .day-tooltip {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(31, 80, 199, 0.18);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(31, 80, 199, 0.35);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MISC
+═══════════════════════════════════════════════════════════ */
+textarea {
+  resize: none;
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--cal-accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
