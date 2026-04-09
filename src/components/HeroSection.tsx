@@ -264,26 +264,26 @@ export default function HeroSection() {
       </div>
 
       {/* ── Month / Year editorial block ─────────────── */}
-      <div className="absolute bottom-0 right-0 px-6 md:px-8 pb-[17px] z-10 text-right select-none">
+      <div className="absolute bottom-0 right-0 px-6 md:px-8 pb-[20px] z-10 select-none flex flex-col items-end">
         <motion.span
           key={`year-${idx}`}
-          className="block font-mono font-semibold uppercase mb-0.5"
+          className="block font-display font-black uppercase text-white/90"
           style={{
-            fontSize: '9.5px',
-            letterSpacing: '0.44em',
-            color: 'rgba(255,255,255,0.65)',
-            textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+            fontSize: '32px',
+            lineHeight: '1',
+            letterSpacing: '0.10em',
+            textShadow: '0 2px 10px rgba(0,0,0,0.3)',
           }}
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
         >
           {format(currentMonth, 'yyyy')}
         </motion.span>
         <AnimatePresence mode="wait">
           <motion.span
             key={`month-${idx}`}
-            className="block font-display font-bold leading-none"
+            className="block font-display font-bold leading-none mt-1"
             style={{
               fontSize: 'clamp(2.4rem, 6vw, 3.4rem)',
               letterSpacing: '0.10em',

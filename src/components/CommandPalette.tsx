@@ -4,14 +4,17 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCalendar } from '@/hooks/useCalendar';
 import { useNotes } from '@/hooks/useNotes';
+import * as chrono from 'chrono-node';
+import { format } from 'date-fns';
 
 export default function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [smartDateAction, setSmartDateAction] = useState<Action | null>(null);
 
-  const { goToMonth, clearSelection, toggleDarkMode } = useCalendar();
+  const { goToMonth, clearSelection, toggleDarkMode, jumpToDate } = useCalendar();
   const { clearNote, localVal } = useNotes();
 
   // Open palette with keyboard shortcut
@@ -58,10 +61,33 @@ export default function CommandPalette() {
     }))
   ];
 
-  const filtered = actions.filter(a => 
-    a.label.toLowerCase().includes(query.toLowerCase()) || 
-    a.category.toLowerCase().includes(query.toLowerCase())
-  );
+  useEffect(() => {
+    if (query.trim().length > 2) {
+      const results = chrono.parse(query);
+      if (results.length > 0) {
+        const date = results[0].start.date();
+        setSmartDateAction({
+          id: 'smart_date',
+          category: 'Smart Jump',
+          label: `Jump to ${format(date, 'yyyy MMMM do')}`,
+          icon: '✨',
+          onAction: () => { jumpToDate(date); setIsOpen(false); }
+        });
+      } else {
+        setSmartDateAction(null);
+      }
+    } else {
+      setSmartDateAction(null);
+    }
+  }, [query, jumpToDate]);
+
+  const filtered = [
+    ...(smartDateAction ? [smartDateAction] : []),
+    ...actions.filter(a => 
+      a.label.toLowerCase().includes(query.toLowerCase()) || 
+      a.category.toLowerCase().includes(query.toLowerCase())
+    )
+  ];
 
   useEffect(() => {
     setActiveIndex(0);

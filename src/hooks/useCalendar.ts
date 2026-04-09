@@ -25,6 +25,7 @@ export function useCalendar() {
     setShowOnboarding,
     completeOnboarding,
     setRange,
+    jumpToDate,
   } = useCalendarStore();
 
   const currentMonth = useMemo(
@@ -80,5 +81,6 @@ export function useCalendar() {
     setShowOnboarding,
     completeOnboarding,
     setRange,
+    jumpToDate,
   };
 }

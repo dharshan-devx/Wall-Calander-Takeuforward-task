@@ -31,6 +31,7 @@ interface CalendarActions {
   setActiveTab: (tab: 'date' | 'range') => void;
   setShowOnboarding: (show: boolean) => void;
   completeOnboarding: () => void;
+  jumpToDate: (date: Date) => void;
 }
 
 export const useCalendarStore = create<CalendarState & CalendarActions>()(
@@ -112,6 +113,12 @@ export const useCalendarStore = create<CalendarState & CalendarActions>()(
       setActiveTab: (tab) => set({ activeTab: tab }),
       setShowOnboarding: (show) => set({ showOnboarding: show }),
       completeOnboarding: () => set({ hasSeenOnboarding: true, showOnboarding: false }),
+      jumpToDate: (date) => set({
+        currentMonth: toDateKey(startOfMonth(date)),
+        startDate: toDateKey(date),
+        endDate: toDateKey(date),
+        phase: 'start-selected'
+      }),
     }),
     {
       name: 'wc-calendar-storage',

@@ -8,6 +8,7 @@ import { resolveActiveRange, toDateKey, WEEKDAY_LABELS } from '@/lib/calendarUti
 import { useCalendar } from '@/hooks/useCalendar';
 import { useNotes } from '@/hooks/useNotes';
 import DayCell from './DayCell';
+import DateSearch from './DateSearch';
 
 export default function CalendarGrid() {
   const {
@@ -25,6 +26,7 @@ export default function CalendarGrid() {
     setHoveredDate,
     clearSelection,
     setRange,
+    jumpToDate,
   } = useCalendar();
   const { hasDateNote, hasActiveRangeNote, rangeKey } = useNotes();
   const monthTransitionKey = `${year}-${monthName}`;
@@ -33,10 +35,8 @@ export default function CalendarGrid() {
   const [dragAnchor, setDragAnchor] = useState<Date | null>(null);
 
   const jumpToToday = useCallback(() => {
-    const today = new Date();
-    goToMonth(today.getMonth());
-    setFocusedDate(today);
-  }, [goToMonth]);
+    jumpToDate(new Date());
+  }, [jumpToDate]);
 
   const normalizedFocusedDate = useMemo(() => {
     if (focusedDate) return focusedDate;
@@ -130,6 +130,11 @@ export default function CalendarGrid() {
 
   return (
     <div className="flex flex-col w-full">
+
+      {/* Dedicated Search Layer — Elevated & Centered to avoid collision */}
+      <div className="flex justify-center mb-4 px-6 relative z-30">
+        <DateSearch />
+      </div>
 
       {/* Grid header containing functional controls */}
       <div className="flex items-center justify-between mb-6 sm:mb-8 px-2 sm:px-6 relative h-10">
