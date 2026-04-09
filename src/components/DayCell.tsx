@@ -1,7 +1,7 @@
 import { useState, memo, useRef, useEffect } from 'react';
 import { isSameMonth, isToday, isSameDay, isAfter, isBefore, format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { DayCellProps } from '@/types/calendarTypes';
+import type { DayCellProps } from '@/types/calendar';
 import { getHoliday } from '@/lib/holidays';
 import { resolveActiveRange } from '@/lib/calendarUtils';
 
@@ -53,26 +53,33 @@ const DayCell = memo(({
   const isPreviewEdge  = isPreview && (isRangeStart || isRangeEnd);
 
   // ── Text color Map ─────────────────────────────────────────
-  let textColorClass = 'text-gray-900 dark:text-gray-100';
+  let textColorClass = 'text-gray-800 dark:text-gray-200';
   if (!isEp && !showHighlight) {
-    if (!isCurr) textColorClass = 'text-gray-300 dark:text-gray-600';
-    else if (inRange && !isRangeStart && !isRangeEnd) textColorClass = 'text-gray-800 dark:text-gray-200';
-    else if (isWknd) textColorClass = 'text-gray-400';
+    if (!isCurr) textColorClass = 'text-gray-300/60 dark:text-gray-600/50';
+    else if (inRange && !isRangeStart && !isRangeEnd) textColorClass = 'text-gray-900 dark:text-white';
+    else if (isWknd) textColorClass = 'text-[var(--cal-accent)] drop-shadow-[0_0_8px_var(--cal-accent-glow)]';
   }
+
+  // Determine the cell background based on selection state
+  let cellBg = 'bg-transparent';
+  if (isEp || showHighlight) cellBg = 'bg-[var(--cal-accent)]';
+  else if (inRange) cellBg = 'bg-[var(--cal-accent-glow)] rounded-none';
 
   return (
     <div
       ref={cellRef}
-      className="relative flex items-center justify-center cursor-pointer select-none group h-10 touch-manipulation"
+      className={`relative flex items-center justify-center cursor-pointer select-none group touch-manipulation h-10 sm:h-12 md:h-14 transition-all duration-300 outline-none focus:outline-none ${
+        !isEp && !inRange ? 'hover:bg-black/[0.03] dark:hover:bg-white/[0.04] rounded-full' : ''
+      }`}
       onClick={() => onDateClick(date)}
       onFocus={() => onDateFocus(date)}
       onPointerDown={(e) => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
-        onDatePointerDown?.(date);
+        onDatePointerDown(date);
       }}
       onPointerUp={(e) => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
-        onDatePointerUp?.(date);
+        onDatePointerUp(date);
       }}
       onPointerEnter={() => { onDateHover(date); setShowTip(true); }}
       onPointerLeave={() => setShowTip(false)}
@@ -83,50 +90,37 @@ const DayCell = memo(({
       aria-label={`${format(date, 'MMMM d, yyyy')}${holiday ? ` — ${holiday.name}` : ''}`}
       onKeyDown={(e) => onDateKeyDown(e, date)}
     >
-      {/* ── Today indicator ─────────────────── */}
-      {isTod && !isEp && !showHighlight && (
-        <span className="absolute inset-x-0 bottom-1.5 flex justify-center pointer-events-none">
-          <span className="w-1 h-1 rounded-full bg-[var(--cal-accent)]" />
-        </span>
-      )}
-
-      {/* ── Range Strip ─────────────────── */}
+      {/* ── Seamless Range Pill Strip ── */}
       {inRange && !isSingle && (
         <div
-          className={`absolute top-1/2 -translate-y-1/2 h-8 pointer-events-none transition-all duration-200 ${
-            isRangeStart ? 'left-1/2 right-0 rounded-l-md' : 'left-0'
+          className={`absolute top-[2px] bottom-[2px] md:top-[4px] md:bottom-[4px] pointer-events-none transition-all duration-300 ease-out z-0 ${
+            isRangeStart ? 'left-1/2 right-0 rounded-l-full' : 'left-0'
           } ${
-            isRangeEnd ? 'right-1/2 left-0 rounded-r-md' : 'right-0'
+            isRangeEnd ? 'right-1/2 left-0 rounded-r-full' : 'right-0'
           } ${
             !isRangeStart && !isRangeEnd ? 'left-0 right-0' : ''
           }`}
           style={{
             backgroundColor: 'var(--cal-accent)',
-            opacity: isPreview ? 0.08 : 0.15,
+            opacity: isPreview ? 0.08 : 0.14,
           }}
         />
       )}
 
-      {/* ── Day Number Circle ────────── */}
+      {/* ── Day Number & Circular Endpoints ────────── */}
       <motion.div
-        className={`relative z-10 flex items-center justify-center w-8 h-8 text-[13px] font-semibold rounded-full transition-shadow duration-200 ${
-          isPreviewEdge && !isEp ? 'ring-2 ring-cal-accent/30 ring-offset-2 ring-offset-transparent' : ''
+        className={`relative z-10 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-[44px] md:h-[44px] rounded-full text-[14px] sm:text-[15px] md:text-[16px] transition-all duration-300 ease-out ${
+          isPreviewEdge && !isEp ? 'ring-2 ring-[var(--cal-accent)]/40 bg-[var(--cal-accent)]/5' : ''
         } ${
-          isTod && !isEp && !showHighlight ? 'font-bold' : ''
+          isTod && !isEp && !showHighlight ? 'font-bold ring-1 ring-offset-2 dark:ring-offset-[#12141a] ring-[var(--cal-accent)] shadow-sm' : 'font-medium'
         } ${
-          isFocused && !isEp ? 'ring-2 ring-gray-200 dark:ring-white/20' : ''
-        } ${isEp || showHighlight ? 'text-white' : textColorClass}`}
-        style={{
-          backgroundColor: isEp || showHighlight ? 'var(--cal-accent)' : 'transparent',
-          boxShadow: isEp || showHighlight ? '0 4px 10px var(--cal-accent-glow)' : 'none',
-        }}
-        whileHover={{
-          scale: 1.05,
-          backgroundColor: isEp || showHighlight ? 'var(--cal-accent)' : 'rgba(0,0,0,0.04)',
-        }}
-        whileTap={{ scale: 0.95 }}
+          isEp || showHighlight 
+            ? 'bg-[var(--cal-accent)] text-white font-bold shadow-[0_4px_16px_var(--cal-accent-glow)]' 
+            : textColorClass
+        }`}
+        whileTap={{ scale: 0.9 }}
       >
-        {date.getDate()}
+        {date.getDate() < 10 && date.getDate() !== 1 ? `0${date.getDate()}` : date.getDate() === 1 && !isCurr ? `01` : date.getDate()}
       </motion.div>
 
       {/* Star marker for Events/Notes */}
@@ -145,30 +139,37 @@ const DayCell = memo(({
 
 
 
-      {/* Holiday tooltip — Modern Apple-style UI */}
+      {/* Premium Dark Glass Tooltip UI with Edge Collision Prevention */}
       <AnimatePresence>
         {holiday && showTip && (
           <motion.div
-            className="absolute bottom-full mb-[14px] left-1/2 -translate-x-1/2 text-[11px] px-3.5 py-1.5 rounded-[10px] whitespace-nowrap z-[60] font-sans font-medium flex items-center justify-center gap-1.5"
+            className={`absolute bottom-full mb-[12px] text-[12px] px-4 py-2 rounded-xl whitespace-nowrap z-[60] font-sans font-medium flex items-center justify-center gap-2 transform origin-bottom border border-white/10 dark:border-white/5 ${
+              date.getDay() === 0 ? 'left-0 translate-x-0 origin-bottom-left' :
+              date.getDay() === 6 ? 'right-0 translate-x-0 origin-bottom-right' :
+              'left-1/2 -translate-x-1/2 origin-bottom'
+            }`}
             style={{
-              background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackFilter: 'blur(16px)',
-              color: '#0f172a',
-              border: '1px solid rgba(0,0,0,0.06)',
-              boxShadow: '0 12px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)',
+              background: 'rgba(15, 23, 42, 0.88)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              color: '#ffffff',
+              boxShadow: '0 16px 40px -12px rgba(0,0,0,0.6), 0 0 0 1px inset rgba(255,255,255,0.08)',
             }}
-            initial={{ opacity: 0, y: 10, scale: 0.92 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 6, scale: 0.96 }}
-            transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 8, scale: 0.94, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, y: 4, scale: 0.98, filter: 'blur(2px)' }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <div
-              className="absolute top-full left-1/2 -translate-x-1/2"
-              style={{ borderWidth: 5, borderStyle: 'solid', borderColor: 'transparent', borderTopColor: 'rgba(255,255,255,0.95)' }}
+              className={`absolute top-[calc(100%-1px)] ${
+                date.getDay() === 0 ? 'left-[20px] -translate-x-1/2' :
+                date.getDay() === 6 ? 'right-[20px] translate-x-1/2' :
+                'left-1/2 -translate-x-1/2'
+              }`}
+              style={{ borderWidth: '6px 6px 0 6px', borderStyle: 'solid', borderColor: 'rgba(15, 23, 42, 0.88) transparent transparent transparent' }}
             />
-            <span className="text-[13px] leading-none">{holiday.emoji}</span>
-            <span className="tracking-wide">{holiday.name}</span>
+            <span className="text-[14px] leading-none drop-shadow-md">{holiday.emoji}</span>
+            <span className="tracking-wide text-white/90">{holiday.name}</span>
           </motion.div>
         )}
       </AnimatePresence>

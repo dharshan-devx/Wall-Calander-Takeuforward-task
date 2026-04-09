@@ -27,6 +27,21 @@ const QUOTES = [
   { text: "The only time to look back is to see how far you've come.", type: "Motivation" },
 ];
 
+const WAVE_PALETTES = [
+  { deep: ['#0284c7', '#2563eb', '#0369a1'], mid: ['#38bdf8', '#0ea5e9', '#0284c7'], foam: ['#bae6fd', '#ffffff', '#e0f2fe'] }, // Jan
+  { deep: ['#be123c', '#e11d48', '#9f1239'], mid: ['#fb7185', '#f43f5e', '#e11d48'], foam: ['#fecdd3', '#ffffff', '#ffe4e6'] }, // Feb
+  { deep: ['#047857', '#059669', '#065f46'], mid: ['#34d399', '#10b981', '#059669'], foam: ['#a7f3d0', '#ffffff', '#d1fae5'] }, // Mar
+  { deep: ['#4c1d95', '#6d28d9', '#5b21b6'], mid: ['#a78bfa', '#8b5cf6', '#7c3aed'], foam: ['#ddd6fe', '#ffffff', '#ede9fe'] }, // Apr
+  { deep: ['#b45309', '#d97706', '#92400e'], mid: ['#fcd34d', '#fbbf24', '#f59e0b'], foam: ['#fef3c7', '#ffffff', '#fffbeb'] }, // May
+  { deep: ['#0369a1', '#0284c7', '#075985'], mid: ['#7dd3fc', '#38bdf8', '#0ea5e9'], foam: ['#e0f2fe', '#ffffff', '#f0f9ff'] }, // Jun
+  { deep: ['#c2410c', '#ea580c', '#9a3412'], mid: ['#fb923c', '#f97316', '#ea580c'], foam: ['#fed7aa', '#ffffff', '#ffedd5'] }, // Jul
+  { deep: ['#0f766e', '#0d9488', '#115e59'], mid: ['#5eead4', '#2dd4bf', '#14b8a6'], foam: ['#ccfbf1', '#ffffff', '#f0fdfa'] }, // Aug
+  { deep: ['#a21caf', '#c026d3', '#86198f'], mid: ['#f0abfc', '#e879f9', '#d946ef'], foam: ['#fae8ff', '#ffffff', '#fdf4ff'] }, // Sep
+  { deep: ['#b45309', '#ea580c', '#92400e'], mid: ['#fcd34d', '#f59e0b', '#d97706'], foam: ['#fef3c7', '#ffffff', '#fffbeb'] }, // Oct
+  { deep: ['#4338ca', '#4f46e5', '#3730a3'], mid: ['#818cf8', '#6366f1', '#4f46e5'], foam: ['#e0e7ff', '#ffffff', '#eef2ff'] }, // Nov
+  { deep: ['#0e7490', '#0891b2', '#164e63'], mid: ['#67e8f9', '#22d3ee', '#06b6d4'], foam: ['#cffafe', '#ffffff', '#ecfeff'] }, // Dec
+];
+
 
 function QuoteWidget() {
   const { currentMonth } = useCalendar();
@@ -141,27 +156,27 @@ export default function HeroSection() {
       >
         <defs>
           <linearGradient id="beachDeep" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#2563eb" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#0284c7" stopOpacity="0.85" />
+            <motion.stop offset="0%" animate={{ stopColor: WAVE_PALETTES[idx].deep[0] }} transition={{ duration: 0.8 }} stopOpacity="0.8" />
+            <motion.stop offset="50%" animate={{ stopColor: WAVE_PALETTES[idx].deep[1] }} transition={{ duration: 0.8 }} stopOpacity="0.95" />
+            <motion.stop offset="100%" animate={{ stopColor: WAVE_PALETTES[idx].deep[2] }} transition={{ duration: 0.8 }} stopOpacity="0.85" />
           </linearGradient>
           <linearGradient id="beachMid" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.65" />
-            <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0.75" />
+            <motion.stop offset="0%" animate={{ stopColor: WAVE_PALETTES[idx].mid[0] }} transition={{ duration: 0.8 }} stopOpacity="0.65" />
+            <motion.stop offset="50%" animate={{ stopColor: WAVE_PALETTES[idx].mid[1] }} transition={{ duration: 0.8 }} stopOpacity="0.9" />
+            <motion.stop offset="100%" animate={{ stopColor: WAVE_PALETTES[idx].mid[2] }} transition={{ duration: 0.8 }} stopOpacity="0.75" />
           </linearGradient>
           <linearGradient id="beachFoam" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#bae6fd" stopOpacity="0.85" />
-            <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
-            <stop offset="100%" stopColor="#e0f2fe" stopOpacity="0.9" />
+            <motion.stop offset="0%" animate={{ stopColor: WAVE_PALETTES[idx].foam[0] }} transition={{ duration: 0.8 }} stopOpacity="0.85" />
+            <motion.stop offset="50%" animate={{ stopColor: WAVE_PALETTES[idx].foam[1] }} transition={{ duration: 0.8 }} stopOpacity="1" />
+            <motion.stop offset="100%" animate={{ stopColor: WAVE_PALETTES[idx].foam[2] }} transition={{ duration: 0.8 }} stopOpacity="0.9" />
           </linearGradient>
         </defs>
-        
+
         {/* Back wave: deep water */}
         <motion.path
           fill="url(#beachDeep)"
           style={{ mixBlendMode: 'multiply' }}
-          animate={{ 
+          animate={{
             x: [0, -600],
             d: [
               "M 0 35 Q 150 10 300 35 T 600 35 T 900 35 T 1200 35 L 1200 66 L 0 66 Z",
@@ -172,12 +187,12 @@ export default function HeroSection() {
           }}
           transition={{ x: { repeat: Infinity, duration: 25, ease: "linear" }, d: { repeat: Infinity, duration: 8, ease: "easeInOut" } }}
         />
-        
+
         {/* Mid wave: bright turquoise */}
         <motion.path
           fill="url(#beachMid)"
           style={{ mixBlendMode: 'overlay' }}
-          animate={{ 
+          animate={{
             x: [-600, 0],
             d: [
               "M 0 45 Q 150 25 300 45 T 600 45 T 900 45 T 1200 45 L 1200 66 L 0 66 Z",
@@ -193,7 +208,7 @@ export default function HeroSection() {
         <motion.path
           fill="url(#beachFoam)"
           style={{ mixBlendMode: 'soft-light' }}
-          animate={{ 
+          animate={{
             x: [0, -600],
             d: [
               "M 0 48 Q 150 35 300 48 T 600 48 T 900 48 T 1200 48 L 1200 66 L 0 66 Z",
@@ -205,9 +220,9 @@ export default function HeroSection() {
           transition={{ x: { repeat: Infinity, duration: 16, ease: "linear" }, d: { repeat: Infinity, duration: 6, ease: "easeInOut" } }}
         />
       </svg>
-      
+
       {/* ── Subtitle Dark Anchoring Fade ─────────────────────── */}
-      <div 
+      <div
         className="absolute bottom-0 left-0 right-0 h-16 z-[3] pointer-events-none"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%)' }}
       />
@@ -219,8 +234,8 @@ export default function HeroSection() {
             key={i}
             onClick={() => goToMonth(i)}
             className={`h-1.5 rounded-full transition-all duration-300 border-none cursor-pointer focus-visible:outline-none ${i === idx
-                ? 'w-7 shadow-[0_0_6px_rgba(255,255,255,0.6)]'
-                : 'w-2 hover:w-3'
+              ? 'w-7 shadow-[0_0_6px_rgba(255,255,255,0.6)]'
+              : 'w-2 hover:w-3'
               }`}
             style={{
               background: i === idx

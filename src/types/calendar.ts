@@ -6,6 +6,13 @@ export interface DayCellProps {
   hoveredDate: Date | null;
   onDateClick: (date: Date) => void;
   onDateHover: (date: Date | null) => void;
+  hasNote: boolean;
+  hasRangeNote: boolean;
+  isFocused: boolean;
+  onDateFocus: (date: Date) => void;
+  onDateKeyDown: (e: React.KeyboardEvent<HTMLDivElement>, date: Date) => void;
+  onDatePointerDown: (date: Date) => void;
+  onDatePointerUp: (date: Date) => void;
 }
 
 export interface HeroImage {

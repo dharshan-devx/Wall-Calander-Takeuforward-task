@@ -133,5 +133,6 @@ export function useNotes() {
     hasDateNote,
     updateNote,
     clearNote,
+    allNotes,
   };
 }

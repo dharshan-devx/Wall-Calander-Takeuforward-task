@@ -48,7 +48,7 @@ export default function CalendarGrid() {
     const monthDelta =
       (targetDate.getFullYear() - currentMonth.getFullYear()) * 12 +
       (targetDate.getMonth() - currentMonth.getMonth());
-    
+
     if (monthDelta !== 0) {
       goToMonth(targetDate.getMonth());
     }
@@ -69,7 +69,7 @@ export default function CalendarGrid() {
     if (event.key in keyOffsets) {
       event.preventDefault();
       const next = moveFocusedDate(date, keyOffsets[event.key]);
-      
+
       if (event.shiftKey) {
         // Range selection via shift
         const anchor = keyboardRangeAnchor ?? date;
@@ -104,8 +104,9 @@ export default function CalendarGrid() {
     setDragAnchor(date);
   }, []);
 
-  const handlePointerEnter = useCallback((date: Date) => {
+  const handlePointerEnter = useCallback((date: Date | null) => {
     setHoveredDate(date);
+    if (!date) return;
     if (dragAnchor && toDateKey(date) !== toDateKey(dragAnchor)) {
       if (!startDate || toDateKey(startDate) !== toDateKey(dragAnchor)) {
         clearSelection();
@@ -130,48 +131,65 @@ export default function CalendarGrid() {
   return (
     <div className="flex flex-col w-full">
 
-      {/* Grid header */}
-      <div className="flex items-center justify-between mb-8 px-2">
-        <div className="flex flex-col">
-          <span className="font-serif text-3xl font-bold tracking-tight text-cal-text-primary leading-none mb-1">
-            {monthName}
-          </span>
-          <span className="font-mono text-[10px] text-cal-text-muted font-bold tracking-[0.25em] uppercase mt-1">
-            Productivity View - {year}
-          </span>
-        </div>
+      {/* Grid header containing functional controls */}
+      <div className="flex items-center justify-between mb-6 sm:mb-8 px-2 sm:px-6 relative h-10">
         
-        <div className="flex items-center gap-2">
+        {/* Previous Month Button (Left Anchor) */}
+        <button
+          onClick={goToPrevMonth}
+          aria-label="Previous Month"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 dark:border-white/10 bg-white dark:bg-[#2A2A2D] text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#343438] hover:text-[var(--cal-accent)] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] active:scale-95 group relative z-10"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:-translate-x-0.5 transition-transform">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        {/* Today Button - Absolute Absolute Center (guarantees perfection) */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center pointer-events-none">
           <button
             onClick={jumpToToday}
-            className="flex items-center justify-center font-body text-[11px] font-medium text-cal-text-primary border border-[var(--glass-border-sub)] hover:border-[var(--glass-border)] bg-[var(--cal-surface)] hover:bg-[var(--glass-bg-subtle)] px-5 py-2 rounded-full transition-all"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
+            className="pointer-events-auto flex items-center justify-center font-sans tracking-wide text-xs md:text-sm font-bold text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-white/10 bg-white dark:bg-[#2A2A2D] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 hover:border-[var(--cal-accent)]/50 hover:text-[var(--cal-accent)] px-8 py-2.5 rounded-full transition-all active:scale-95"
           >
             Today
           </button>
+        </div>
+
+        {/* Right Controls Anchor: Clear + Next Month */}
+        <div className="flex items-center gap-3 relative z-10">
           <AnimatePresence>
             {(startDate || endDate) && (
               <motion.button
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.9, x: 10 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.9, x: 10 }}
                 onClick={clearSelection}
-                className="flex items-center justify-center font-body text-[11px] font-medium text-red-500 hover:text-red-600 bg-red-50 px-5 py-2 rounded-full transition-all border border-red-100"
+                className="hidden sm:flex px-4 py-2 rounded-full text-xs font-bold bg-white dark:bg-[#2A2A2D] border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-sm active:scale-95 whitespace-nowrap"
               >
-                Clear
+                Clear Selection
               </motion.button>
             )}
           </AnimatePresence>
+
+          <button
+            onClick={goToNextMonth}
+            aria-label="Next Month"
+            className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 dark:border-white/10 bg-white dark:bg-[#2A2A2D] text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#343438] hover:text-[var(--cal-accent)] transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] active:scale-95 group"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-x-0.5 transition-transform">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
         </div>
       </div>
 
-      {/* Weekday headers — Clean floating text */}
-      <div className="grid grid-cols-7 mb-6 px-2">
+      {/* Weekday headers — Borderless clean text */}
+      <div className="grid grid-cols-7 mb-4 sm:mb-6 px-1">
         {WEEKDAY_LABELS.map((d, i) => (
           <div
             key={d}
-            className={`text-center font-mono text-[10px] font-bold tracking-[0.20em] uppercase ${
-              i >= 5 ? 'text-cal-text-primary' : 'text-cal-text-faint'
+            className={`text-center font-sans text-[10px] sm:text-xs font-bold tracking-wider sm:tracking-widest uppercase ${
+              i === 5 || i === 6 ? 'text-[var(--cal-accent)]' : 'text-gray-500 dark:text-gray-400'
             }`}
           >
             {d}
@@ -193,25 +211,25 @@ export default function CalendarGrid() {
             className="grid grid-cols-7 preserve-3d"
             role="grid"
             aria-label={`${monthName} ${year} calendar`}
-            initial={{ 
-              opacity: 0, 
-              rotateX: -90, 
+            initial={{
+              opacity: 0,
+              rotateX: -90,
               translateZ: 100,
               y: -20,
             }}
-            animate={{ 
-              opacity: 1, 
-              rotateX: 0, 
+            animate={{
+              opacity: 1,
+              rotateX: 0,
               translateZ: 0,
               y: 0,
             }}
-            exit={{ 
-              opacity: 0, 
-              rotateX: 90, 
+            exit={{
+              opacity: 0,
+              rotateX: 90,
               translateZ: 100,
               y: -20,
             }}
-            transition={{ 
+            transition={{
               duration: 0.7, // Slower, more physical page flip
               ease: [0.17, 0.84, 0.44, 1] // Elegant CSS-like easeOutQuint
             }}
@@ -222,7 +240,7 @@ export default function CalendarGrid() {
             {days.map((date) => {
               const activeRange = resolveActiveRange(startDate, endDate, hoveredDate);
               const isDateInRange = activeRange && isWithinInterval(date, activeRange);
-              
+
               return (
                 <DayCell
                   key={toDateKey(date)}
