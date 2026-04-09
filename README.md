@@ -1,54 +1,55 @@
 # Interactive Wall Calendar Showcase
 
-A high-performance, interactive wall calendar built with Next.js and Framer Motion. The goal was simple: take a basic calendar and make it feel responsive, intuitive, and visually engaging—without sacrificing performance.
-
----
-
-## Overview
-
-Most calendar UIs feel static and mechanical. I wanted this to feel smooth and responsive while still being practical to use.
-
-This project focuses on:
-- Clean interactions
-- Clear visual feedback
-- Performance even with animations
+A high-performance, interactive wall calendar built with Next.js and Framer Motion. The goal of this project was to take a standard calendar UI and make it feel smooth, responsive, and visually engaging—while maintaining strong performance and clean architecture.
 
 ---
 
 ## Live Demo
 
-[View Live Project](https://wall-calander-tuf.vercel.app/)
+🔗 https://wall-calander-tuf.vercel.app/
+
+---
+
+## Overview
+
+Most calendar interfaces feel static and rigid. This project focuses on improving that experience by introducing fluid interactions, clear visual feedback, and thoughtful UI behavior without overloading the user.
+
+The emphasis was on:
+- Smooth user interactions
+- Clean and maintainable architecture
+- Performance across devices
 
 ---
 
 ## Features
 
-- **Range Selection**
-  - Smooth multi-day selection using layout animations
-  - No layout shifts during interaction
+### 1. Range Selection
+- Select multiple days with smooth animations
+- No layout shift during interaction
+- Visual continuity using layout transitions
 
-- **Notes System**
-  - Add notes to specific dates
-  - Stored locally using browser storage
-  - Simple and distraction-free
+### 2. Notes System
+- Add notes to specific dates
+- Data persists using `localStorage`
+- Simple and quick interaction flow
 
-- **Dynamic Month Themes**
-  - Background visuals change based on the selected month
-  - Subtle enhancement without affecting usability
+### 3. Dynamic Month Themes
+- Visual background changes based on the selected month
+- Keeps UI engaging without distracting from usability
 
-- **Responsive Layout**
-  - Works across desktop and mobile
-  - Layout adapts instead of shrinking unusably
+### 4. Responsive Design
+- Optimized for both desktop and mobile
+- Layout adapts instead of shrinking unusably
 
 ---
 
 ## Tech Stack
 
-- **Next.js 14** (App Router)
-- **Framer Motion**
-- **Tailwind CSS**
-- **React Context + Custom Hooks**
-- **date-fns**
+- **Framework:** Next.js 14 (App Router)
+- **Animation:** Framer Motion
+- **Styling:** Tailwind CSS
+- **State Management:** React Context + Custom Hooks
+- **Date Utilities:** date-fns
 
 ---
 
@@ -56,44 +57,38 @@ This project focuses on:
 
 ### Motion vs Performance
 
-Animations can easily impact performance, especially on lower-end devices.
-
-To handle this:
+Animations were carefully controlled to avoid performance issues:
 - Heavy animations are limited to key interactions
-- Mobile view reduces visual complexity
-- Focus was kept on smooth interaction rather than excessive effects
+- Mobile devices use simplified visuals
+- Focus remains on smooth interaction (~60fps)
 
 ---
 
 ### Separation of Logic and UI
 
-Date logic is separated from UI components.
-
-This helps:
-- Keep components clean and reusable
-- Reduce unnecessary re-renders
-- Make the range selection logic easier to manage
+Date logic is handled separately from UI components:
+- Keeps components reusable and clean
+- Reduces unnecessary re-renders
+- Makes complex interactions easier to manage
 
 ---
 
 ### Tooltip Handling
 
-Tooltips adjust automatically based on screen edges.
-
-This prevents:
-- Overflow issues
-- Broken layouts on smaller devices
+Tooltips dynamically adjust position based on screen boundaries:
+- Prevents overflow issues
+- Improves usability on smaller screens
 
 ---
 
 ## Performance Considerations
 
-Some animations (like SVG transitions and backgrounds) can be expensive.
+Animations like SVG transitions and dynamic backgrounds can be expensive.
 
-So:
-- Mobile devices use simplified rendering
-- Priority is given to interaction performance
-- UI remains responsive even during rapid interactions
+To handle this:
+- Reduced visual complexity on mobile devices
+- Prioritized interaction performance
+- Ensured consistent responsiveness during rapid interactions
 
 ---
 
@@ -101,8 +96,8 @@ So:
 
 ```text
 src/
-├── components/     # UI components
-├── hooks/          # Custom logic hooks
-├── lib/            # Utilities and data
-├── store/          # Global state
-└── types/          # TypeScript types
+├── components/     # Reusable UI components
+├── hooks/          # Custom hooks (logic abstraction)
+├── lib/            # Utilities and static data
+├── store/          # Global state management
+└── types/          # TypeScript definitions
