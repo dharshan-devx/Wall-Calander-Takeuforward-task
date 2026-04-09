@@ -1,84 +1,108 @@
 # Interactive Wall Calendar Showcase
 
-A technical demonstration of a high-performance, immersive wall calendar component. This project explores the intersection of aesthetic motion design and functional utility, built using Next.js and custom Framer Motion orchestration.
+A high-performance, interactive wall calendar built with Next.js and Framer Motion. The goal was simple: take a basic calendar and make it feel responsive, intuitive, and visually engaging—without sacrificing performance.
+
+---
 
 ## Overview
 
-The goal was to transform a standard calendar utility into a tactile, digital experience. By combining dynamic SVG path-morphing with a robust state management system, the component provides a fluid interface for date selection and planning while maintaining strict performance standards across various device types.
+Most calendar UIs feel static and mechanical. I wanted this to feel smooth and responsive while still being practical to use.
+
+This project focuses on:
+- Clean interactions
+- Clear visual feedback
+- Performance even with animations
+
+---
 
 ## Live Demo
 
 [View Live Project](https://wall-calander-tuf.vercel.app/)
 
+---
+
 ## Features
 
-- **Fluid Range Selection**: Orchestrated animations for multi-day selection using layout projection to ensure zero-shift experiences.
-- **Integrated Note Engine**: A contextual workflow for capturing thoughts on specific dates, featuring local persistence and activity tracking.
-- **Adaptive Visual Themes**: Dynamic hero sections that synchronize backgrounds, video overlays, and color palettes based on the selected month.
-- **Responsive Stacking**: A layout system that intelligently repositions components to maximize grid visibility on mobile screens.
+- **Range Selection**
+  - Smooth multi-day selection using layout animations
+  - No layout shifts during interaction
+
+- **Notes System**
+  - Add notes to specific dates
+  - Stored locally using browser storage
+  - Simple and distraction-free
+
+- **Dynamic Month Themes**
+  - Background visuals change based on the selected month
+  - Subtle enhancement without affecting usability
+
+- **Responsive Layout**
+  - Works across desktop and mobile
+  - Layout adapts instead of shrinking unusably
+
+---
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Animation**: Framer Motion
-- **Styling**: Tailwind CSS
-- **State Management**: Custom React Hooks and Context
-- **Date Utilities**: Date-fns
+- **Next.js 14** (App Router)
+- **Framer Motion**
+- **Tailwind CSS**
+- **React Context + Custom Hooks**
+- **date-fns**
 
-## Key Design & Engineering Decisions
+---
 
-### Motion & UX
-I prioritized "natural" over "flashy." The 3D bending transitions use hinge-point logic to mimic the physical flipping of a binder. This adds a sense of world-space depth that makes the digital interface feel more familiar and tactile.
+## Key Engineering Decisions
 
-### Component Architecture
-The calendar is built using a pure functional approach, separating the business logic of date mathematics from the visual representation. This allowed for easier implementation of the range selection logic and ensured that the grid remains highly performant during rapid interactions.
+### Motion vs Performance
 
-### Intelligent Tooltips
-Holiday and note tooltips use edge-detection logic. If a tooltip would overflow the screen boundary on a mobile device or a weekend column, the alignment automatically flips to the safe side, preserving the layout integrity.
+Animations can easily impact performance, especially on lower-end devices.
+
+To handle this:
+- Heavy animations are limited to key interactions
+- Mobile view reduces visual complexity
+- Focus was kept on smooth interaction rather than excessive effects
+
+---
+
+### Separation of Logic and UI
+
+Date logic is separated from UI components.
+
+This helps:
+- Keep components clean and reusable
+- Reduce unnecessary re-renders
+- Make the range selection logic easier to manage
+
+---
+
+### Tooltip Handling
+
+Tooltips adjust automatically based on screen edges.
+
+This prevents:
+- Overflow issues
+- Broken layouts on smaller devices
+
+---
 
 ## Performance Considerations
 
-Heavy animations like SVG path-morphing and video backgrounds are resource-intensive on low-power mobile devices. To address this, I implemented an environment-aware rendering strategy. On mobile viewports, the application simplifies these background processes to prioritize battery life and interaction speed, ensuring a locked 60fps experience for the core grid interactions.
+Some animations (like SVG transitions and backgrounds) can be expensive.
+
+So:
+- Mobile devices use simplified rendering
+- Priority is given to interaction performance
+- UI remains responsive even during rapid interactions
+
+---
 
 ## Folder Structure
 
 ```text
 src/
-├── components/     # Atomic and composite UI components
-├── hooks/          # Abstraction of date logic and persistence
-├── lib/            # Shared utilities and holiday datasets
-├── store/          # Global state management
-└── types/          # TypeScript definitions
-```
-
-## Getting Started
-
-Follow these instructions to run the project locally.
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/dharshan-devx/Wall-Calander-Takeuforward-task
-   cd wall-calander-tuf-task
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-
-The application will be available at `http://localhost:3000`.
-
-## Future Improvements
-
-- **Multi-select Support**: Allowing for non-contiguous date selections for complex scheduling.
-- **Cloud Synchronization**: Migrating the local storage persistence to a database to enable cross-device account syncing.
-- **Drag-to-Move**: Implementing a drag-and-drop layer to reassign notes between dates in the grid.
-
-## Closing Note
-
-This project was built to demonstrate how small, thoughtful details in code can significantly elevate a user's perception of a digital tool. It focuses on the balance between high-end aesthetics and technical reliability.
+├── components/     # UI components
+├── hooks/          # Custom logic hooks
+├── lib/            # Utilities and data
+├── store/          # Global state
+└── types/          # TypeScript types
