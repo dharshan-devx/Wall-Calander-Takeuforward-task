@@ -8,7 +8,7 @@ The goal was to transform a standard calendar utility into a tactile, digital ex
 
 ## Live Demo
 
-[View Live Project](https://github.com/dharshan-devx/tuf_updates-3.0)
+[View Live Project](https://wall-calander-tuf.vercel.app/)
 
 ## Features
 
@@ -57,8 +57,8 @@ Follow these instructions to run the project locally.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/dharshan-devx/tuf_updates-3.0.git
-   cd tuf_updates-3.0
+   git clone https://github.com/dharshan-devx/Wall-Calander-Takeuforward-task
+   cd wall-calander-tuf-task
    ```
 
 2. **Install dependencies**
