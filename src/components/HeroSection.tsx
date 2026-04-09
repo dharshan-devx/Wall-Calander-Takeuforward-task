@@ -59,6 +59,7 @@ function QuoteWidget() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="relative max-w-2xl text-center mt-6"
         >
+          {/* Elegantly styled, calm, central quote text */}
           <p
             className="font-serif italic text-[18px] sm:text-[22px] md:text-[26px] leading-relaxed text-white/95"
             style={{
@@ -84,6 +85,7 @@ export default function HeroSection() {
   return (
     <div className="relative overflow-hidden h-64 md:h-[268px] group">
 
+      {/* ── Photo layer — Ken Burns transition ─────────── */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={hero.url}
@@ -102,6 +104,7 @@ export default function HeroSection() {
             sizes="900px"
           />
 
+          {/* ── Live Wallpaper Overlay (Desktop Only for performance) ── */}
           {hero.videoUrl && (
             <motion.video
               key={`video-${hero.videoUrl}`}
@@ -119,6 +122,7 @@ export default function HeroSection() {
         </motion.div>
       </AnimatePresence>
 
+      {/* ── Ambient breathe — animated color wash ──────── */}
       <motion.div
         className="absolute inset-0 pointer-events-none hero-ambient"
         style={{
@@ -127,8 +131,10 @@ export default function HeroSection() {
         }}
       />
 
+      {/* ── Primary darkening overlay ───────────────────── */}
       <div className="hero-overlay absolute inset-0" />
 
+      {/* ── Frosted glass strip — top nav zone ────────── */}
       <div
         className="absolute top-0 inset-x-0 h-[58px] pointer-events-none z-[4]"
         style={{
@@ -140,6 +146,7 @@ export default function HeroSection() {
         }}
       />
 
+      {/* ── Multi-Color Realistic Beach Waves (Desktop Only for performance) ── */}
       <svg
         className="absolute bottom-0 left-0 right-0 w-full z-[4] transition-transform duration-700 ease-out origin-bottom group-hover:scale-y-125 pointer-events-none"
         style={{ height: '76px', filter: 'drop-shadow(0px -4px 16px rgba(2, 132, 199, 0.3))' }}
@@ -165,6 +172,7 @@ export default function HeroSection() {
           </linearGradient>
         </defs>
 
+        {/* Back wave: deep water */}
         <motion.path
           fill="url(#beachDeep)"
           style={{ mixBlendMode: 'multiply' }}
@@ -180,6 +188,7 @@ export default function HeroSection() {
           transition={{ x: { repeat: Infinity, duration: 25, ease: "linear" }, d: { repeat: Infinity, duration: 8, ease: "easeInOut" } }}
         />
 
+        {/* Mid wave: bright turquoise */}
         <motion.path
           fill="url(#beachMid)"
           style={{ mixBlendMode: 'overlay' }}
@@ -195,6 +204,7 @@ export default function HeroSection() {
           transition={{ x: { repeat: Infinity, duration: 32, ease: "linear" }, d: { repeat: Infinity, duration: 11, ease: "easeInOut" } }}
         />
 
+        {/* Front wave: white foam cap */}
         <motion.path
           fill="url(#beachFoam)"
           style={{ mixBlendMode: 'soft-light' }}
@@ -211,11 +221,13 @@ export default function HeroSection() {
         />
       </svg>
 
+      {/* ── Subtitle Dark Anchoring Fade ─────────────────────── */}
       <div
         className="absolute bottom-0 left-0 right-0 h-16 z-[3] pointer-events-none"
         style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%)' }}
       />
 
+      {/* ── Month navigation dots ─────────────────────── */}
       <div className="absolute top-[44px] left-1/2 -translate-x-1/2 flex gap-2 z-10">
         {HERO_IMAGES.map((_, i) => (
           <button
@@ -235,6 +247,7 @@ export default function HeroSection() {
         ))}
       </div>
 
+      {/* ── Prev / Next controls (glass pill) ─────────── */}
       <div className="absolute top-[38px] left-0 right-0 flex justify-between px-4 md:px-5 z-10">
         <button
           onClick={goToPrevMonth}
@@ -250,6 +263,7 @@ export default function HeroSection() {
         </button>
       </div>
 
+      {/* ── Month / Year editorial block ─────────────── */}
       <div className="absolute bottom-0 right-0 px-6 md:px-8 pb-[17px] z-10 text-right select-none">
         <motion.span
           key={`year-${idx}`}
@@ -257,7 +271,7 @@ export default function HeroSection() {
           style={{
             fontSize: '9.5px',
             letterSpacing: '0.44em',
-            color: 'rgba(255,255,255,0.6)',
+            color: 'rgba(255,255,255,0.65)',
             textShadow: '0 1px 4px rgba(0,0,0,0.3)',
           }}
           initial={{ opacity: 0, y: 4 }}
@@ -269,23 +283,24 @@ export default function HeroSection() {
         <AnimatePresence mode="wait">
           <motion.span
             key={`month-${idx}`}
-            className="block font-sans font-bold leading-none"
+            className="block font-display font-bold leading-none"
             style={{
-              fontSize: 'clamp(2.2rem, 6vw, 3.2rem)',
-              letterSpacing: '0.05em',
-              color: 'white',
-              textShadow: '0 2px 20px rgba(0,0,0,0.5)',
+              fontSize: 'clamp(2.4rem, 6vw, 3.4rem)',
+              letterSpacing: '0.10em',
+              color: 'rgba(255,255,255,1)',
+              textShadow: '0 2px 20px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4)',
             }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.35 }}
+            initial={{ opacity: 0, y: 10, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 1.01 }}
+            transition={{ duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             {MONTHS[idx]}
           </motion.span>
         </AnimatePresence>
       </div>
 
+      {/* ── Motif Feature: Monthly Wall Quote ──────────────────────── */}
       <QuoteWidget />
     </div>
   );

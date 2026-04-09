@@ -68,7 +68,7 @@ const DayCell = memo(({
       ref={cellRef}
       className={`relative flex items-center justify-center cursor-pointer select-none group touch-manipulation h-10 sm:h-12 md:h-14 transition-all duration-300 outline-none focus:outline-none ${
         !isEp && !inRange ? 'hover:bg-black/[0.03] dark:hover:bg-white/[0.04] rounded-full' : ''
-      }`}
+      } ${showTip ? 'z-[100]' : 'z-10'}`}
       onClick={() => onDateClick(date)}
       onFocus={() => onDateFocus(date)}
       onPointerDown={(e) => {
@@ -134,17 +134,17 @@ const DayCell = memo(({
       <AnimatePresence>
         {holiday && showTip && (
           <motion.div
-            className={`absolute bottom-full mb-[12px] text-[12px] px-4 py-2 rounded-xl whitespace-nowrap z-[60] font-sans font-medium flex items-center justify-center gap-2 transform origin-bottom border border-white/10 dark:border-white/5 ${
-              date.getDay() === 0 ? 'left-0 translate-x-0 origin-bottom-left' :
-              date.getDay() === 6 ? 'right-0 translate-x-0 origin-bottom-right' :
+            className={`absolute bottom-full mb-[12px] text-[12px] px-4 py-2 rounded-xl z-[60] font-sans font-medium flex items-center justify-center gap-2 transform border border-white/10 dark:border-white/5 max-w-[220px] whitespace-normal text-center ${
+              date.getDay() === 1 ? 'left-0 translate-x-0 origin-bottom-left text-left' :
+              date.getDay() === 0 || date.getDay() === 6 ? 'right-0 translate-x-0 origin-bottom-right text-right' :
               'left-1/2 -translate-x-1/2 origin-bottom'
             }`}
             style={{
-              background: 'rgba(15, 23, 42, 0.88)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+              background: 'rgba(15, 23, 42, 0.98)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
               color: '#ffffff',
-              boxShadow: '0 16px 40px -12px rgba(0,0,0,0.6), 0 0 0 1px inset rgba(255,255,255,0.08)',
+              boxShadow: '0 20px 50px -12px rgba(0,0,0,0.7), 0 0 0 1px inset rgba(255,255,255,0.1)',
             }}
             initial={{ opacity: 0, y: 8, scale: 0.94, filter: 'blur(4px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
@@ -153,8 +153,8 @@ const DayCell = memo(({
           >
             <div
               className={`absolute top-[calc(100%-1px)] ${
-                date.getDay() === 0 ? 'left-[20px] -translate-x-1/2' :
-                date.getDay() === 6 ? 'right-[20px] translate-x-1/2' :
+                date.getDay() === 1 ? 'left-[20px] -translate-x-1/2' :
+                date.getDay() === 0 || date.getDay() === 6 ? 'right-[20px] translate-x-1/2' :
                 'left-1/2 -translate-x-1/2'
               }`}
               style={{ borderWidth: '6px 6px 0 6px', borderStyle: 'solid', borderColor: 'rgba(15, 23, 42, 0.88) transparent transparent transparent' }}

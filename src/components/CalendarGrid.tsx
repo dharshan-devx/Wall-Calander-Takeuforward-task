@@ -156,17 +156,17 @@ export default function CalendarGrid() {
         </div>
 
         {/* Right Controls Anchor: Clear + Next Month */}
-        <div className="flex items-center gap-3 relative z-10">
+        <div className="flex items-center justify-end min-w-[140px] gap-3 relative z-10">
           <AnimatePresence>
             {(startDate || endDate) && (
               <motion.button
-                initial={{ opacity: 0, scale: 0.9, x: 10 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.9, x: 10 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
                 onClick={clearSelection}
-                className="hidden sm:flex px-4 py-2 rounded-full text-xs font-bold bg-white dark:bg-[#2A2A2D] border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-sm active:scale-95 whitespace-nowrap"
+                className="flex px-3 sm:px-4 py-2 rounded-full text-[10px] sm:text-xs font-bold bg-white dark:bg-[#2A2A2D] border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-red-500 transition-all active:scale-95 whitespace-nowrap"
               >
-                Clear Selection
+                Clear
               </motion.button>
             )}
           </AnimatePresence>
@@ -184,13 +184,12 @@ export default function CalendarGrid() {
       </div>
 
       {/* Weekday headers — Borderless clean text */}
-      <div className="grid grid-cols-7 mb-4 sm:mb-6 px-4">
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d, i) => (
+      <div className="grid grid-cols-7 mb-4 sm:mb-6 px-1">
+        {WEEKDAY_LABELS.map((d, i) => (
           <div
             key={d}
-            className={`text-center font-sans text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase select-none ${
-              i === 5 || i === 6 ? 'text-[var(--cal-accent)] opacity-60' : 'text-cal-text-muted opacity-40'
-            }`}
+            className={`text-center font-sans text-[10px] sm:text-xs font-bold tracking-wider sm:tracking-widest uppercase ${i === 5 || i === 6 ? 'text-[var(--cal-accent)]' : 'text-gray-500 dark:text-gray-400'
+              }`}
           >
             {d}
           </div>
@@ -202,6 +201,7 @@ export default function CalendarGrid() {
         className="rounded-xl -mx-1 px-1"
         style={{
           background: 'radial-gradient(ellipse 75% 60% at 50% 45%, rgba(31,80,199,0.02) 0%, transparent 70%)',
+          perspective: '1200px',
         }}
         onMouseLeave={() => setHoveredDate(null)}
       >
@@ -211,10 +211,13 @@ export default function CalendarGrid() {
             className="grid grid-cols-7 preserve-3d"
             role="grid"
             aria-label={`${monthName} ${year} calendar`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, rotateX: 20, y: 10, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, rotateX: 0, y: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, rotateX: -20, y: -10, filter: 'blur(4px)' }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              transformOrigin: 'top center', // Crucial: hinges exactly where the physical binder rings are
+            }}
           >
             {days.map((date) => {
               const activeRange = resolveActiveRange(startDate, endDate, hoveredDate);

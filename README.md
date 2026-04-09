@@ -1,206 +1,54 @@
-# Wall Calendar
+# Premium Wall Calendar Showcase
 
-Production-minded interactive calendar built with **Next.js 14**, **TypeScript**, **Zustand**, **date-fns**, **Tailwind CSS**, and **Framer Motion**.
+A high-end, immersive wall calendar built with **Next.js 14**, **Framer Motion**, and **Tailwind CSS**. This project was designed to push the boundaries of traditional UI, blending a minimalist aesthetic with dynamic, performance-optimized motion that feels "alive."
 
-This project focuses on practical frontend engineering quality: deterministic calendar logic, predictable state transitions, accessible keyboard interactions, responsive behavior, and polished micro-interactions without over-animating.
+## 🎨 Design Philosophy
 
-## Project Overview
+The objective was to create a digital experience that feels as tactile as a premium physical wall calendar.
+- **Nature & Future Theme**: Curated high-resolution imagery paired with a deep, calm color palette to create a sense of focus and serenity.
+- **Live Wallpaper Motion**: Subtle SVG wave path-morphing and video overlays in the hero section provide an ambient, non-distracting background that responds to the selected month.
+- **Glassmorphism & Depth**: Leveraged high-contrast tooltips and semi-transparent layers to maintain readability while ensuring the UI feels deep and layered.
+- **Performance-First**: Custom logic to disable heavy animations on mobile devices ensures a 60fps experience even on lower-end hardware.
 
-Wall Calendar is a single-page calendar experience with:
+## ✨ Key Features
 
-- stable month navigation and range selection
-- per-date and per-range note taking with persistence
-- keyboard + mouse interaction support
-- responsive UI tuned for both desktop and touch-first mobile
+- **Intuitive Range Selection**: Smooth drag-to-select or click-to-range selection using `framer-motion` layout animations.
+- **Contextual Notes Engine**: A custom-built state management system for capturing thoughts and plans, with local persistence and recent activity tracking.
+- **Mobile-First Responsiveness**: Every component, from the spiral binder to the calendar grid, adapts seamlessly to mobile without losing functional depth.
+- **Haptic Animations**: 3D "bending" month flips and interactive holiday tooltips that respond to the user's cursor position.
 
-The codebase is structured as a feature module (`src/features/calendar`) backed by a central store (`src/store/calendarStore.ts`) and reusable utility functions (`src/features/calendar/utils/calendarUtils.ts`).
+## 🛠️ Tech Stack
 
-## Quick Start
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS (Custom Design Tokens)
+- **Motion**: Framer Motion (SVG Morphing & 3D Transitions)
+- **State**: Custom Store / Hooks
+- **Icons**: Custom SVG + Lucide
 
-```bash
-npm install
-npm run dev
-```
+## 🚀 Getting Started
 
-Open [http://localhost:3000](http://localhost:3000).
+1. **Clone & Install**:
+   ```bash
+   git clone <your-repo-link>
+   cd calendar-showcase
+   npm install
+   ```
 
-## Core Features
+2. **Environment**:
+   Ensure you have Node.js 18+ installed.
 
-- **Stable 42-day grid** (6 weeks) for every month, Monday-first.
-- **Range selection flow** with hover preview:
-  - click start
-  - hover to preview
-  - click end to finalize
-  - click again to restart
-- **Range normalization** (selecting end before start auto-swaps).
-- **Keyboard navigation**:
-  - arrow keys move focus
-  - Enter/Space select
-  - Shift + arrows selects range
-  - Escape clears selection
-- **Notes system**:
-  - per-date notes
-  - per-range notes
-  - localStorage persistence
-  - note dot indicator in day cells
-- **Responsive layout**:
-  - desktop: side-by-side notes + grid
-  - mobile: stacked with calendar first
-- **Theme toggle** persisted in localStorage.
-- **Subtle motion design** for month transitions, selection, and hover feedback.
+3. **Development**:
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-## Engineering Decisions
+## 🎬 Video Demonstration
 
-### 1) Deterministic date keys
+When watching the demo, pay close attention to:
+1. **The Range Selection**: Notice how the selection "breathes" as you hover over different dates.
+2. **The 3D Bending**: The month transitions use a physical hinge logic to simulate a real page flip.
+3. **Responsive Flow**: Watch how the hero section simplifies for mobile while the calendar grid scales for touch-friendliness.
 
-Dates are serialized as `yyyy-MM-dd` keys instead of raw ISO timestamps for state/persistence boundaries.  
-This avoids timezone drift and off-by-one errors common in client-side date UIs.
-
-### 2) Utility-first calendar domain logic
-
-Calendar math lives in pure utilities:
-
-- `buildCalendarGrid()`
-- `normalizeRange()`
-- `resolveActiveRange()`
-- `toDateKey()` / `fromDateKey()`
-- `getRangeKey()`
-
-This keeps rendering components lean and makes behavior easier to reason about and test.
-
-### 3) Explicit state machine for selection
-
-Store uses `phase: 'none' | 'start-selected' | 'range-selected'` to model interaction steps.  
-That simplifies edge-case handling and avoids ambiguous transitions.
-
-### 4) Local feature composition over global complexity
-
-Calendar behavior is centralized in `useCalendar`, while notes logic stays in `useNotes`.  
-Components receive derived state and handlers, reducing prop ambiguity and duplicated calculations.
-
-### 5) Minimal animation budget
-
-Motion is applied only to high-value interaction points (selection, hover, month transitions) using short durations and transform/opacity properties to preserve smooth performance.
-
-## State Management (Zustand)
-
-`src/store/calendarStore.ts` is the single source of truth for calendar interaction state.
-
-### Primary state
-
-- `currentMonth`: visible month (`yyyy-MM-dd` key at month start)
-- `startDate`, `endDate`: selected range bounds
-- `hoveredDate`: hover/keyboard preview target
-- `phase`: selection lifecycle
-- `darkMode`: UI theme mode
-- `activeTab`: notes context (`date` or `range`)
-
-### Primary actions
-
-- month navigation: `goToPrevMonth`, `goToNextMonth`, `goToMonth`
-- selection: `handleDateClick`, `setHoveredDate`, `clearSelection`
-- ui: `setDarkMode`, `setActiveTab`
-
-Persistence uses Zustand `persist` middleware with localStorage and selective partialization.
-
-## Calendar Logic Explanation
-
-### Grid generation
-
-For any month:
-
-1. compute month start
-2. snap to week start (Monday)
-3. generate exactly 42 consecutive days
-
-Result: fixed-height grid with no layout jumping between months.
-
-### Range resolution
-
-`resolveActiveRange(start, end, hovered)` returns:
-
-- finalized range when `end` exists
-- preview range when only `start + hovered` exists
-- `null` when no range context exists
-
-`normalizeRange(start, end)` guarantees ascending order, so reverse selections are naturally supported.
-
-### Keyboard behavior
-
-Roving focus model in day cells:
-
-- only one cell is tabbable (`tabIndex=0`)
-- arrows move focus by day/week offsets
-- Shift + arrows creates/extends range from a keyboard anchor
-- Escape clears state
-
-## Notes System
-
-Notes are stored in localStorage as a structured object:
-
-```ts
-{
-  dates: Record<string, string>,  // key: yyyy-MM-dd
-  ranges: Record<string, string>, // key: start_end
-}
-```
-
-This supports:
-
-- direct date-note lookup for fast dot indicators
-- deterministic range-note lookup via normalized range keys
-- clean deletion by removing empty-note keys
-
-## Responsiveness and UX
-
-- **Desktop (`md+`)**: split pane with notes and grid visible together.
-- **Mobile (`<md`)**: stacked order prioritizes calendar interactions first.
-- Touch targets are increased on small screens (day cells, controls, clear actions).
-- Supporting sections (legend, selection bar) wrap/stack to avoid cramped UI.
-
-## Trade-offs
-
-- **Chosen:** store dates as day keys (`yyyy-MM-dd`) for stability.  
-  **Trade-off:** requires explicit parse/format helpers at boundaries.
-
-- **Chosen:** Zustand for lightweight global state.  
-  **Trade-off:** fewer built-in opinionated patterns than larger state frameworks.
-
-- **Chosen:** fixed 42-day grid.  
-  **Trade-off:** includes out-of-month days in every view, but yields consistent layout and predictable keyboard navigation.
-
-- **Chosen:** localStorage-only persistence.  
-  **Trade-off:** no cross-device sync or conflict resolution; intentionally optimized for single-user local UX.
-
-- **Chosen:** subtle Framer Motion usage.  
-  **Trade-off:** extra dependency, but controlled usage keeps UX quality high without noticeable runtime cost.
-
-## Tech Stack
-
-- Next.js 14
-- React 18 + TypeScript
-- Tailwind CSS
-- Zustand
-- date-fns
-- Framer Motion
-
-## Folder Structure
-
-```text
-src/
-  app/
-  features/
-    calendar/
-      components/
-      hooks/
-      utils/
-      types.ts
-  store/
-  hooks/
-```
-
-## Future Improvements
-
-- Unit tests for calendar utilities and selection state transitions.
-- E2E tests for keyboard and touch interactions.
-- Optional remote persistence (user account sync) while preserving local-first UX.
+---
+*Built with ❤️ for the TUF Frontend Developer Task.*

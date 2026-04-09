@@ -309,8 +309,8 @@ export default function NotesPanel() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {!activeKey && <RecentNotesList allNotes={allNotes} onSelectNote={handleSelectRecent} />}
+ 
+      <RecentNotesList allNotes={allNotes} onSelectNote={handleSelectRecent} />
 
     </div>
   );
