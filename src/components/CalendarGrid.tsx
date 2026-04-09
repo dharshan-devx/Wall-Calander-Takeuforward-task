@@ -133,7 +133,7 @@ export default function CalendarGrid() {
 
       {/* Grid header containing functional controls */}
       <div className="flex items-center justify-between mb-6 sm:mb-8 px-2 sm:px-6 relative h-10">
-        
+
         {/* Previous Month Button (Left Anchor) */}
         <button
           onClick={goToPrevMonth}
@@ -184,12 +184,12 @@ export default function CalendarGrid() {
       </div>
 
       {/* Weekday headers — Borderless clean text */}
-      <div className="grid grid-cols-7 mb-4 sm:mb-6 px-1">
-        {WEEKDAY_LABELS.map((d, i) => (
+      <div className="grid grid-cols-7 mb-4 sm:mb-6 px-4">
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d, i) => (
           <div
             key={d}
-            className={`text-center font-sans text-[10px] sm:text-xs font-bold tracking-wider sm:tracking-widest uppercase ${
-              i === 5 || i === 6 ? 'text-[var(--cal-accent)]' : 'text-gray-500 dark:text-gray-400'
+            className={`text-center font-sans text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase select-none ${
+              i === 5 || i === 6 ? 'text-[var(--cal-accent)] opacity-60' : 'text-cal-text-muted opacity-40'
             }`}
           >
             {d}
@@ -199,7 +199,7 @@ export default function CalendarGrid() {
 
       {/* Date grid — soft radial glow behind cells */}
       <div
-        className="rounded-xl -mx-1 px-1 perspective-1000 preserve-3d"
+        className="rounded-xl -mx-1 px-1"
         style={{
           background: 'radial-gradient(ellipse 75% 60% at 50% 45%, rgba(31,80,199,0.02) 0%, transparent 70%)',
         }}
@@ -211,31 +211,10 @@ export default function CalendarGrid() {
             className="grid grid-cols-7 preserve-3d"
             role="grid"
             aria-label={`${monthName} ${year} calendar`}
-            initial={{
-              opacity: 0,
-              rotateX: -90,
-              translateZ: 100,
-              y: -20,
-            }}
-            animate={{
-              opacity: 1,
-              rotateX: 0,
-              translateZ: 0,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              rotateX: 90,
-              translateZ: 100,
-              y: -20,
-            }}
-            transition={{
-              duration: 0.7, // Slower, more physical page flip
-              ease: [0.17, 0.84, 0.44, 1] // Elegant CSS-like easeOutQuint
-            }}
-            style={{
-              transformOrigin: 'top center', // Crucial: hinges exactly where the physical binder rings are
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
             {days.map((date) => {
               const activeRange = resolveActiveRange(startDate, endDate, hoveredDate);

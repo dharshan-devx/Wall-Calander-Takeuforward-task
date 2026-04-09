@@ -49,8 +49,13 @@ const config: Config = {
       animation: {
         'slide-up':     'slideUp 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
         'accent-pulse': 'accentPulse 2.2s ease-in-out infinite',
+        'fade-in':      'fadeIn 0.4s ease-out forwards',
       },
       keyframes: {
+        fadeIn: {
+          from: { opacity: '0' },
+          to:   { opacity: '1' },
+        },
         slideUp: {
           from: { opacity: '0', transform: 'translateY(10px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },

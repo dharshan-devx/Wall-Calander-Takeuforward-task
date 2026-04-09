@@ -7,7 +7,6 @@ import { useCalendarStore } from '@/store/calendarStore';
 import { fromDateKey, toDateKey } from '@/lib/calendarUtils';
 import { startOfMonth } from 'date-fns';
 
-// ─── UTILS ─────────────────────────────────────────────────────────────────
 
 const parseRecentNotes = (allNotes: Record<string, string>, prefix: string = '') => {
   return Object.entries(allNotes || {})
@@ -19,14 +18,13 @@ const parseRecentNotes = (allNotes: Record<string, string>, prefix: string = '')
       val, 
       snippet: val.slice(0, 32) + (val.length > 32 ? '...' : '') 
     }))
-    .slice(0, 3); // Get top 3
+    .slice(0, 3);
 };
 
-// ─── SUBCOMPONENTS ────────────────────────────────────────────────────────
 
 function ModeToggle({ activeTab, setActiveTab, isDateDisabled, isRangeDisabled }: any) {
   return (
-    <div className="flex bg-gray-100/60 dark:bg-white/5 p-1 rounded-xl w-full max-w-full shadow-inner border border-gray-200/50 dark:border-white/5 mb-4 group h-9">
+    <div className="flex bg-gray-100/60 dark:bg-white/5 p-1 rounded-xl w-full shadow-inner border border-gray-200/50 dark:border-white/5 mb-4 group h-9">
       {(['date', 'range'] as const).map(tab => {
         const isActive = activeTab === tab;
         const isDisabled = tab === 'date' ? isDateDisabled : isRangeDisabled;
@@ -35,15 +33,15 @@ function ModeToggle({ activeTab, setActiveTab, isDateDisabled, isRangeDisabled }
             key={tab}
             onClick={() => !isDisabled ? setActiveTab(tab) : undefined}
             disabled={isDisabled}
-            className={`flex-1 text-[12px] font-bold rounded-lg px-3 tracking-wide transition-all duration-300 outline-none relative z-10 flex flex-col justify-center items-center ${
+            className={`flex-1 text-[12px] font-bold rounded-lg px-3 tracking-wide transition-all duration-200 outline-none relative z-10 flex flex-col justify-center items-center ${
               isActive
-                ? 'bg-white dark:bg-[#2C2C2E] text-[var(--cal-accent)] shadow-sm ring-1 ring-black/5 dark:ring-white/10'
+                ? 'bg-white dark:bg-[#2C2C2E] text-[var(--cal-accent)] shadow-sm'
                 : isDisabled
                   ? 'cursor-not-allowed opacity-40 text-gray-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 cursor-pointer hover:bg-gray-200/50 dark:hover:bg-white/5'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-800'
             }`}
           >
-            {tab === 'date' ? 'Single Date' : 'Date Range'}
+            {tab === 'date' ? 'Date' : 'Range'}
           </button>
         );
       })}
@@ -80,10 +78,10 @@ function EmptyState() {
 function NotesEditor({ localVal, displayLabel, handleUpdate }: any) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-expanding textarea based on scrollHeight
+  // Auto-expand textarea
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'; // Reset
+      textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${Math.max(160, textareaRef.current.scrollHeight)}px`;
     }
     handleUpdate(e.target.value);
@@ -93,26 +91,21 @@ function NotesEditor({ localVal, displayLabel, handleUpdate }: any) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col group min-h-[180px] rounded-[16px] bg-white dark:bg-[#12141A] shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-[var(--cal-accent)]/50 focus-within:border-[var(--cal-accent)] focus-within:shadow-[0_8px_30px_-10px_var(--cal-accent-glow)]"
+      className="flex flex-col group min-h-[180px] rounded-xl bg-white dark:bg-[#12141A] shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden transition-all duration-300 focus-within:ring-2 focus-within:ring-[var(--cal-accent)]/20"
     >
       <div className="px-4 pt-4 pb-2 border-b border-gray-50 dark:border-white/[0.02] flex items-center justify-between">
-        <span className="font-serif text-[18px] font-bold text-gray-900 dark:text-white leading-none">
+        <span className="font-sans text-[14px] font-bold text-gray-900 dark:text-white leading-none">
           {displayLabel}
         </span>
-        <div className="w-1.5 h-1.5 rounded-full bg-[var(--cal-accent)]/80 shadow-[0_0_8px_var(--cal-accent-glow)] animate-pulse" />
       </div>
       
       <div className="relative flex-1 p-4">
-        {/* Lined notebook effect */}
-        <div className="absolute inset-x-4 top-4 bottom-4 pointer-events-none opacity-[0.04] dark:opacity-[0.02]" 
-             style={{ backgroundImage: 'repeating-linear-gradient(transparent, transparent 27px, #000 27px, #000 28px)', backgroundSize: '100% 28px' }} />
-        
         <textarea
           ref={textareaRef}
           value={localVal}
           onChange={handleInput}
-          placeholder="What's on your mind for this day?"
-          className="relative w-full min-h-[160px] bg-transparent text-[14px] leading-[28px] text-gray-800 dark:text-gray-200 placeholder-gray-300 dark:placeholder-gray-600 outline-none resize-none"
+          placeholder="Capture your thoughts..."
+          className="relative w-full min-h-[160px] bg-transparent font-sans text-[14px] leading-relaxed text-gray-800 dark:text-gray-200 placeholder-gray-300 dark:placeholder-white/10 outline-none resize-none"
           aria-label="Notes input"
         />
       </div>
@@ -206,7 +199,6 @@ function RecentNotesList({ allNotes, onSelectNote }: any) {
   );
 }
 
-// ─── MAIN ORCHESTRATOR ────────────────────────────────────────────────────
 
 export default function NotesPanel() {
   const {
@@ -229,18 +221,16 @@ export default function NotesPanel() {
   const activeKey   = activeTab === 'date' ? dateKey  : rangeKey;
   const displayLabel = activeTab === 'date' ? dateLabel : rangeLabel;
 
-  // Fake save simulation for premium UX
+  // Simulate save delay
   const handleSave = () => {
     setSavingStatus('loading');
     updateNote(localVal);
-    // Fake network delay
     setTimeout(() => {
       setSavingStatus('saved');
       setTimeout(() => setSavingStatus('idle'), 2000);
     }, 600);
   };
 
-  // Intermediate state for auto-sync without loading indicator
   const handleUpdate = (val: string) => {
     updateNote(val);
   };
@@ -271,7 +261,6 @@ export default function NotesPanel() {
   return (
     <div className="flex flex-col h-full overflow-y-auto overflow-x-hidden pr-2 -mr-2 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-black/20 pb-4">
 
-      {/* Guided Workflow UI Header */}
       <div className="flex items-center justify-between mb-5">
         <div>
           <span className="font-sans text-[9px] font-extrabold tracking-[0.25em] text-gray-400 dark:text-gray-500 uppercase leading-none block mb-1.5 focus:outline-none">
@@ -282,7 +271,6 @@ export default function NotesPanel() {
           </h2>
         </div>
         
-        {/* Step Indicator */}
         <div className="flex gap-1.5">
           <div className="h-1.5 w-4 rounded-full bg-[var(--cal-accent)] transition-all" />
           <div className={`h-1.5 rounded-full transition-all duration-500 ${activeKey ? 'w-4 bg-[var(--cal-accent)]' : 'w-1.5 bg-gray-200 dark:bg-white/10'}`} />
@@ -290,12 +278,14 @@ export default function NotesPanel() {
         </div>
       </div>
 
-      <ModeToggle 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        isDateDisabled={isDateDisabled} 
-        isRangeDisabled={isRangeDisabled} 
-      />
+      <div className="mb-8">
+        <ModeToggle 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          isDateDisabled={isDateDisabled} 
+          isRangeDisabled={isRangeDisabled} 
+        />
+      </div>
 
       <AnimatePresence mode="wait">
         {!activeKey ? (

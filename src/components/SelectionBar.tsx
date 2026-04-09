@@ -27,13 +27,11 @@ export default function SelectionBar() {
       exit={{ opacity: 0, y: 6, scale: 0.98 }}
       transition={{ duration: 0.24, ease: [0.34, 1.56, 0.64, 1] }}
     >
-      {/* Shimmer edge highlight */}
       <div
         className="absolute top-0 inset-x-0 h-px pointer-events-none"
         style={{ background: 'linear-gradient(to right, transparent 10%, rgba(255,255,255,0.45) 50%, transparent 90%)' }}
       />
 
-      {/* Date info */}
       <div className="flex items-center gap-3 min-w-0">
         <div
           className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
@@ -60,7 +58,6 @@ export default function SelectionBar() {
         </div>
       </div>
 
-      {/* Action buttons */}
       <div className="flex items-center gap-2">
         <motion.button
           onClick={openRangeNotes}

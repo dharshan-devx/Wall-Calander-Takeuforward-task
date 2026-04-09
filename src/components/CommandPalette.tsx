@@ -14,7 +14,7 @@ export default function CommandPalette() {
   const { goToMonth, clearSelection, toggleDarkMode } = useCalendar();
   const { clearNote, localVal } = useNotes();
 
-  // Toggle pale on Cmd/Ctrl + K
+  // Open palette with keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -122,7 +122,7 @@ export default function CommandPalette() {
           
           <div className="max-h-80 overflow-y-auto p-2">
             {filtered.length === 0 ? (
-              <p className="text-centertext-sm text-gray-400 py-8 italic">No matching results.</p>
+              <p className="text-center text-sm text-gray-400 py-8 italic">No results.</p>
             ) : (
               filtered.map((action, i) => (
                 <div 

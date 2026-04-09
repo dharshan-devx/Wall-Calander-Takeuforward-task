@@ -77,11 +77,9 @@ export function getRangeKey(start: Date, end: Date): string {
   return `${toDateKey(normalized.start)}_${toDateKey(normalized.end)}`;
 }
 
-// Curated hero images per month + Dynamic theme tokens
 export const HERO_IMAGES: HeroImage[] = [
   {
-    month: 0, // JANUARY
-    name: 'January',
+    month: 0,    name: 'January',
     url: 'https://images.unsplash.com/photo-1445543949571-ffc3e0e2f55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-winter-fashion-cold-snow-forest-wood-5746-large.mp4',
     color: '#1a2b4c',
@@ -89,8 +87,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Swiss Alps, CH',
   },
   {
-    month: 1, // FEBRUARY
-    name: 'February',
+    month: 1,    name: 'February',
     url: 'https://images.unsplash.com/photo-1473655584501-c529baeee97f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-pink-blossom-flowers-on-a-branch-1180-large.mp4',
     color: '#4c1a2b',
@@ -98,8 +95,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Kyoto, JP',
   },
   {
-    month: 2, // MARCH
-    name: 'March',
+    month: 2,    name: 'March',
     url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-tree-branches-in-the-breeze-1188-large.mp4',
     color: '#1a4c2b',
@@ -107,8 +103,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Yosemite, USA',
   },
   {
-    month: 3, // APRIL
-    name: 'April',
+    month: 3,    name: 'April',
     url: 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-rain-falling-on-the-water-of-a-lake-1568-large.mp4',
     color: '#2b1a4c',
@@ -116,8 +111,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Plitvice Lakes, HR',
   },
   {
-    month: 4, // MAY
-    name: 'May',
+    month: 4,    name: 'May',
     url: 'https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-meadow-surrounded-by-trees-on-a-sunny-afternoon-40647-large.mp4',
     color: '#4c3b1a',
@@ -125,8 +119,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Tuscany, IT',
   },
   {
-    month: 5, // JUNE
-    name: 'June',
+    month: 5,    name: 'June',
     url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-sea-edge-with-foamy-waves-1165-large.mp4',
     color: '#1a3b4c',
@@ -134,8 +127,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Santorini, GR',
   },
   {
-    month: 6, // JULY
-    name: 'July',
+    month: 6,    name: 'July',
     url: 'https://images.unsplash.com/photo-1495954484750-af469f2f9be5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-sun-setting-or-rising-over-palm-trees-1170-large.mp4',
     color: '#4c2b1a',
@@ -143,8 +135,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Maui, USA',
   },
   {
-    month: 7, // AUGUST
-    name: 'August',
+    month: 7,    name: 'August',
     url: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-driving-on-a-country-road-42614-large.mp4',
     color: '#2b4c1a',
@@ -152,8 +143,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Olympic Peninsula, USA',
   },
   {
-    month: 8, // SEPTEMBER
-    name: 'September',
+    month: 8,    name: 'September',
     url: 'https://images.unsplash.com/photo-1444464666168-49b626428ca4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-stars-in-space-1610-large.mp4',
     color: '#4c1a3b',
@@ -161,8 +151,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Banff, CA',
   },
   {
-    month: 9, // OCTOBER
-    name: 'October',
+    month: 9,    name: 'October',
     url: 'https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fog-over-the-mountain-1184-large.mp4',
     color: '#4c2b1a',
@@ -170,8 +159,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Vermont, USA',
   },
   {
-    month: 10, // NOVEMBER
-    name: 'November',
+    month: 10,    name: 'November',
     url: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-mountain-landscape-with-a-quiet-lake-43180-large.mp4',
     color: '#3b1a4c',
@@ -179,8 +167,7 @@ export const HERO_IMAGES: HeroImage[] = [
     location: 'Patagonia, AR',
   },
   {
-    month: 11, // DECEMBER
-    name: 'December',
+    month: 11,    name: 'December',
     url: 'https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
     videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-fire-flames-burning-in-a-fireplace-1004-large.mp4',
     color: '#1a4c4c',

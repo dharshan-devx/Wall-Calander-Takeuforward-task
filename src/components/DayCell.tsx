@@ -52,15 +52,13 @@ const DayCell = memo(({
   const isPreview      = !endDate && !!hoveredDate;
   const isPreviewEdge  = isPreview && (isRangeStart || isRangeEnd);
 
-  // ── Text color Map ─────────────────────────────────────────
   let textColorClass = 'text-gray-800 dark:text-gray-200';
   if (!isEp && !showHighlight) {
     if (!isCurr) textColorClass = 'text-gray-300/60 dark:text-gray-600/50';
     else if (inRange && !isRangeStart && !isRangeEnd) textColorClass = 'text-gray-900 dark:text-white';
-    else if (isWknd) textColorClass = 'text-[var(--cal-accent)] drop-shadow-[0_0_8px_var(--cal-accent-glow)]';
+    else if (isWknd) textColorClass = 'text-[var(--cal-accent)]/80';
   }
 
-  // Determine the cell background based on selection state
   let cellBg = 'bg-transparent';
   if (isEp || showHighlight) cellBg = 'bg-[var(--cal-accent)]';
   else if (inRange) cellBg = 'bg-[var(--cal-accent-glow)] rounded-none';
@@ -90,7 +88,6 @@ const DayCell = memo(({
       aria-label={`${format(date, 'MMMM d, yyyy')}${holiday ? ` — ${holiday.name}` : ''}`}
       onKeyDown={(e) => onDateKeyDown(e, date)}
     >
-      {/* ── Seamless Range Pill Strip ── */}
       {inRange && !isSingle && (
         <div
           className={`absolute top-[2px] bottom-[2px] md:top-[4px] md:bottom-[4px] pointer-events-none transition-all duration-300 ease-out z-0 ${
@@ -107,39 +104,33 @@ const DayCell = memo(({
         />
       )}
 
-      {/* ── Day Number & Circular Endpoints ────────── */}
       <motion.div
         className={`relative z-10 flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 md:w-[44px] md:h-[44px] rounded-full text-[14px] sm:text-[15px] md:text-[16px] transition-all duration-300 ease-out ${
-          isPreviewEdge && !isEp ? 'ring-2 ring-[var(--cal-accent)]/40 bg-[var(--cal-accent)]/5' : ''
+          isPreviewEdge && !isEp ? 'ring-1 ring-[var(--cal-accent)]/40' : ''
         } ${
-          isTod && !isEp && !showHighlight ? 'font-bold ring-1 ring-offset-2 dark:ring-offset-[#12141a] ring-[var(--cal-accent)] shadow-sm' : 'font-medium'
+          isTod && !isEp && !showHighlight ? 'font-bold ring-1 ring-[var(--cal-accent)]' : 'font-medium'
         } ${
           isEp || showHighlight 
-            ? 'bg-[var(--cal-accent)] text-white font-bold shadow-[0_4px_16px_var(--cal-accent-glow)]' 
+            ? 'bg-[var(--cal-accent)] text-white font-bold' 
             : textColorClass
         }`}
-        whileTap={{ scale: 0.9 }}
       >
-        {date.getDate() < 10 && date.getDate() !== 1 ? `0${date.getDate()}` : date.getDate() === 1 && !isCurr ? `01` : date.getDate()}
+        {date.getDate()}
       </motion.div>
 
-      {/* Star marker for Events/Notes */}
+      {/* Note indicator */}
       {(hasNote || hasRangeNote) && isCurr && (
         <span className="absolute top-1 right-1 z-20 pointer-events-none leading-none text-[8px]" aria-hidden="true">
           ✦
         </span>
       )}
 
-      {/* Holiday marker — simplified icon */}
       {holiday && isCurr && (
         <span className="absolute top-1.5 right-1.5 z-20 pointer-events-none leading-none text-[7px]" aria-hidden="true">
           ✨
         </span>
       )}
 
-
-
-      {/* Premium Dark Glass Tooltip UI with Edge Collision Prevention */}
       <AnimatePresence>
         {holiday && showTip && (
           <motion.div

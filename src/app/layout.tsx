@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Wall Calendar — Interactive Date Planner',
+  title: 'Wall Calendar',
   description: 'A premium interactive wall calendar with date range selection, notes, and holiday markers.',
 };
 

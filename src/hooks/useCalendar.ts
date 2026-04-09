@@ -5,10 +5,7 @@ import { differenceInDays, format, isSameDay } from 'date-fns';
 import { useCalendarStore } from '@/store/calendarStore';
 import { buildCalendarGrid, fromDateKey, resolveActiveRange } from '@/lib/calendarUtils';
 
-/**
- * Hook for core calendar navigation and month state.
- * Encapsulates store interactions and provides semantic methods.
- */
+// Manages calendar state and navigation
 export function useCalendar() {
   const {
     currentMonth: currentMonthStr,
@@ -67,6 +64,7 @@ export function useCalendar() {
     endDate,
     hoveredDate,
     activeRange,
+    // Update local value when the selected day changes
     selectedDaysCount,
     isSingleDaySelection,
     darkMode,

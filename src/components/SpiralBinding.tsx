@@ -7,7 +7,6 @@ export default function SpiralBinding() {
           className="relative w-[10px] h-3 rounded-md mt-2 shadow-[inset_0_3px_5px_rgba(0,0,0,1),_0_1px_0_rgba(255,255,255,0.4)]"
           style={{ background: '#0a0f18' }}
         >
-          {/* Left Wire of the Twin Loop */}
           <div 
             className="absolute -top-[10px] left-[1px] w-[3.5px] h-[20px] rounded-[2px]"
             style={{
@@ -16,7 +15,6 @@ export default function SpiralBinding() {
               transform: 'skewX(-2deg)'
             }}
           />
-          {/* Right Wire of the Twin Loop */}
           <div 
             className="absolute -top-[10px] right-[1px] w-[3.5px] h-[20px] rounded-[2px]"
             style={{

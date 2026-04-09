@@ -5,17 +5,14 @@ import { useCalendar } from '@/hooks/useCalendar';
 function SpiralHoles() {
   return (
     <div className="wire-o-wrapper">
-      {/* 14 Left Loops */}
       {Array.from({ length: 14 }).map((_, i) => (
         <div key={`left-${i}`} className="wire-o-hole" />
       ))}
 
-      {/* Center Hanger Notch */}
       <div className="hanger-cutout">
         <div className="hanger-wire" />
       </div>
 
-      {/* 14 Right Loops */}
       {Array.from({ length: 14 }).map((_, i) => (
         <div key={`right-${i}`} className="wire-o-hole" />
       ))}
@@ -38,7 +35,6 @@ export default function CalendarBinder() {
         boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.65)',
       }}
     >
-      {/* Brand label */}
       <div className="flex items-center gap-4">
         <span className="font-mono text-[10px] tracking-[.28em] text-cal-text-muted uppercase font-medium select-none whitespace-nowrap">
           Wall Calendar<span className="text-cal-text-faint mx-1.5">·</span>{year}
@@ -49,7 +45,6 @@ export default function CalendarBinder() {
 
       <SpiralHoles />
 
-      {/* Dark mode toggle */}
       <button
         onClick={toggleDarkMode}
         className="glass-btn inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[10px] font-body tracking-wide text-cal-text-secondary hover:text-cal-text-primary select-none"

@@ -13,10 +13,7 @@ interface NotesStore {
 
 const EMPTY_NOTES: NotesStore = { dates: {}, ranges: {} };
 
-/**
- * Hook for managing calendar notes and tab state.
- * Handles persistence and context-aware note retrieval.
- */
+// Hook for managing calendar notes and UI state
 export function useNotes() {
   const { startDate, endDate, activeTab, setActiveTab } = useCalendarStore();
 
@@ -67,7 +64,7 @@ export function useNotes() {
     return `${format(start, 'MMM d')} -> ${format(end, 'MMM d')}`;
   }, [rangeKey]);
 
-  // Sync state with storage when the active key changes
+  // Update editor value when active date changes
   useEffect(() => {
     if (!activeKey) {
       setLocalVal('');
@@ -79,7 +76,7 @@ export function useNotes() {
     setLocalVal(value);
   }, [activeKey, activeTabResolved, allNotes]);
 
-  // Auto-switch tabs when a range is selected
+  // Automatically switch between single date and range editor
   useEffect(() => {
     if (rangeKey) {
       setActiveTab('range');
